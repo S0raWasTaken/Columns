@@ -89,18 +89,18 @@ impl<'a> Columns<'a> {
         f
     }
 
-    pub fn set_tabsize(&self, tabsize: usize) -> Self {
+    pub fn set_tabsize(self, tabsize: usize) -> Self {
         Self {
-            inner: self.inner.clone(),
+            inner: self.inner,
             tabsize,
             largest: self.largest,
             separator: self.separator,
         }
     }
 
-    pub fn set_separator(&self, separator: char) -> Self {
+    pub fn set_separator(self, separator: char) -> Self {
         Self {
-            inner: self.inner.clone(),
+            inner: self.inner,
             tabsize: self.tabsize,
             largest: self.largest,
             separator,
