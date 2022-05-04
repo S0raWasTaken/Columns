@@ -22,5 +22,4 @@ line3   displayed
 ```
 
 ## TODO list
-- Post on crates.io
 - Customizable separators
