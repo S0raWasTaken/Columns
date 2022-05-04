@@ -1,6 +1,5 @@
 # Columns
-Formats text separated in columns just like most fetching programs do
-
+A text manipulation library for displaying separate text in columns
 ## Example
 ```rs
 use columns::Columns;
@@ -11,7 +10,7 @@ println!(
         vec!["line1", "line2", "line3"],
         vec!["should", "be", "displayed", "side by side"],
     ])
-    .set_tabsize(8) // Reduces distance between columns. Should be used only if last column has big line sizes
+    .base_tabsize_in(0) // Sets the tabsize to be based in the first one. This is to prevent unnecessary spacing
 );
 ```
 Result:
@@ -25,3 +24,4 @@ line3   displayed
 ## TODO list
 - Documentation
 - Post on crates.io
+- Customizable separators
