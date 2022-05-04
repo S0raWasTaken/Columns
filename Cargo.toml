@@ -4,7 +4,6 @@ version = "0.1.0"
 edition = "2021"
 author = "S0raWasTaken <s0ra@duck.com>"
 license = "MIT"
-license-file = "LICENSE"
 repository = "https://github.com/S0raWasTaken/Columns"
 description = "A text manipulation library for displaying separate text in columns."
 keywords = ["column", "text", "fetch", "neofetch", "wall", "separated"]
