@@ -1,10 +1,35 @@
+//! A text manipulation library for displaying separate text in columns.
+//!
+//! # Quick Start
+//! The quickest way to get column-separated text is to use the `From` implementation for
+//! `Columns`.
+//!  ```
+//! use columns::Columns;
+//!
+//! let column_text = Columns::from(
+//!     vec![
+//!         vec!["text", "should", "be"],
+//!         vec!["in", "different", "columns"],
+//!         vec!["even", "in", "more", "than", "two"]
+//!     ]
+//! );
+//!
+//! println!("{}", column_text);
+//! ```
+//! If you're using `&format!`s, you may want to use `make_columns` method from `columns::Columns`.
+
 #![no_std]
 #![warn(clippy::pedantic)]
+#![warn(missing_docs)]
 use core::fmt::Display;
 
 extern crate alloc;
-use alloc::{format, string::String, vec, vec::Vec};
+use alloc::{format, string::String, vec::Vec};
 
+/// Main crate structure, here goes all the logic.
+///
+/// Generates a column-separated string.
+/// In the future I pretend to make columns mutable, that's why I'm using `Vec`s instead of `&[]`.
 #[derive(Debug, Clone)]
 pub struct Columns<'a> {
     inner: Vec<Vec<&'a str>>,
@@ -47,6 +72,8 @@ impl<'a> Display for Columns<'a> {
 }
 
 impl<'a> Columns<'a> {
+    /// Transforms a `Columns` struct into a `String`.
+    /// Used in Display implementation.
     #[must_use]
     pub fn make_columns(&self) -> String {
         let mut i = 0;
@@ -68,6 +95,8 @@ impl<'a> Columns<'a> {
         f
     }
 
+    /// Sets tabsize manually.
+    /// Can be pretty wonky, so `base_tabsize_in` is recommended instead.
     #[must_use]
     pub fn set_tabsize(self, tabsize: usize) -> Self {
         Self {
@@ -77,6 +106,21 @@ impl<'a> Columns<'a> {
         }
     }
 
+    /// Bases tabsize in a single column, instead of checking every column and
+    /// finding the largest line.
+    ///
+    /// Example:
+    /// ```
+    /// println!(
+    ///     "{}",
+    ///     columns::Columns::from(
+    ///         vec![
+    ///             vec!["a", "b", "c"],
+    ///             vec!["big", "text", "that makes you annoyed"]
+    ///         ]
+    ///     ).base_tabsize_in(0) // Column numbers are count from 0
+    /// );
+    /// ```
     #[must_use]
     pub fn base_tabsize_in(self, column_number: usize) -> Self {
         Self {
