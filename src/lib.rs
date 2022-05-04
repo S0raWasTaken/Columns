@@ -1,5 +1,9 @@
+#![no_std]
 #![warn(clippy::pedantic)]
-use std::fmt::Display;
+use core::fmt::Display;
+
+extern crate alloc;
+use alloc::{format, string::String, vec, vec::Vec};
 
 #[derive(Debug, Clone)]
 pub struct Columns<'a> {
@@ -64,7 +68,7 @@ impl<'a> From<Vec<Vec<&'a str>>> for Columns<'a> {
 }
 
 impl<'a> Display for Columns<'a> {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         write!(f, "{}", self.make_columns())
     }
 }
