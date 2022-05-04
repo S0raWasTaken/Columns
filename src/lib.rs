@@ -12,30 +12,6 @@ pub struct Columns<'a> {
     largest: usize,
 }
 
-impl<'a> From<Vec<&'a str>> for Columns<'a> {
-    fn from(f: Vec<&'a str>) -> Self {
-        Self {
-            inner: vec![f.clone()],
-            tabsize: {
-                let mut size = 0;
-                for item in &f {
-                    if size < item.len() {
-                        size = item.len();
-                    }
-                }
-                size + 3
-            },
-            largest: {
-                let mut largest_line_count = 0;
-                if f.len() > largest_line_count {
-                    largest_line_count = f.len();
-                }
-                largest_line_count
-            },
-        }
-    }
-}
-
 impl<'a> From<Vec<Vec<&'a str>>> for Columns<'a> {
     fn from(f: Vec<Vec<&'a str>>) -> Self {
         Self {
