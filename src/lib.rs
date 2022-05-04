@@ -1,3 +1,4 @@
+#![warn(clippy::pedantic)]
 use std::fmt::Display;
 
 #[derive(Debug, Clone)]
@@ -69,6 +70,7 @@ impl<'a> Display for Columns<'a> {
 }
 
 impl<'a> Columns<'a> {
+    #[must_use]
     pub fn make_columns(&self) -> String {
         let mut i = 0;
         let mut f = String::new();
@@ -89,6 +91,7 @@ impl<'a> Columns<'a> {
         f
     }
 
+    #[must_use]
     pub fn set_tabsize(self, tabsize: usize) -> Self {
         Self {
             inner: self.inner,
@@ -98,6 +101,7 @@ impl<'a> Columns<'a> {
         }
     }
 
+    #[must_use]
     pub fn set_separator(self, separator: char) -> Self {
         Self {
             inner: self.inner,
@@ -107,6 +111,7 @@ impl<'a> Columns<'a> {
         }
     }
 
+    #[must_use]
     pub fn base_tabsize_in(self, column_number: usize) -> Self {
         Self {
             inner: self.inner.clone(),
@@ -114,7 +119,7 @@ impl<'a> Columns<'a> {
                 let mut size = 0;
                 self.inner[column_number].iter().for_each(|line| {
                     if line.len() > size {
-                        size = line.len()
+                        size = line.len();
                     }
                 });
                 size + 3
