@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Columns<'a> {
     inner: Vec<Vec<&'a str>>,
     tabsize: usize,
@@ -104,6 +104,23 @@ impl<'a> Columns<'a> {
             tabsize: self.tabsize,
             largest: self.largest,
             separator,
+        }
+    }
+
+    pub fn base_tabsize_in(self, column_number: usize) -> Self {
+        Self {
+            inner: self.inner.clone(),
+            tabsize: {
+                let mut size = 0;
+                self.inner[column_number].iter().for_each(|line| {
+                    if line.len() > size {
+                        size = line.len()
+                    }
+                });
+                size + 3
+            },
+            largest: self.largest,
+            separator: self.separator,
         }
     }
 }
