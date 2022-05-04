@@ -10,7 +10,6 @@ pub struct Columns<'a> {
     inner: Vec<Vec<&'a str>>,
     tabsize: usize,
     largest: usize,
-    separator: char,
 }
 
 impl<'a> From<Vec<&'a str>> for Columns<'a> {
@@ -33,7 +32,6 @@ impl<'a> From<Vec<&'a str>> for Columns<'a> {
                 }
                 largest_line_count
             },
-            separator: ' ',
         }
     }
 }
@@ -62,7 +60,6 @@ impl<'a> From<Vec<Vec<&'a str>>> for Columns<'a> {
                 }
                 largest_line_count
             },
-            separator: ' ',
         }
     }
 }
@@ -86,11 +83,11 @@ impl<'a> Columns<'a> {
                 if wall_item.len() < self.tabsize
                     && self.inner.iter().position(|f| f == item) != Some(self.inner.len() - 1)
                 {
-                    line += &spaces(self.tabsize - wall_item.len(), self.separator);
+                    line += &spaces(self.tabsize - wall_item.len());
                 }
             }
             i += 1;
-            f += &format!("{}\n", line.trim_end());
+            f += &format!("{}\n", line);
         }
         f
     }
@@ -101,17 +98,6 @@ impl<'a> Columns<'a> {
             inner: self.inner,
             tabsize,
             largest: self.largest,
-            separator: self.separator,
-        }
-    }
-
-    #[must_use]
-    pub fn set_separator(self, separator: char) -> Self {
-        Self {
-            inner: self.inner,
-            tabsize: self.tabsize,
-            largest: self.largest,
-            separator,
         }
     }
 
@@ -129,19 +115,16 @@ impl<'a> Columns<'a> {
                 size + 3
             },
             largest: self.largest,
-            separator: self.separator,
         }
     }
 }
 
-fn spaces(size: usize, separator: char) -> String {
+fn spaces(size: usize) -> String {
     let mut spaces = String::new();
     let mut i = 0;
     while i < size {
         spaces += " ";
         i += 1;
     }
-    spaces.insert(spaces.len() / 2, separator);
-    spaces.remove(spaces.len() / 2 + 1);
     spaces
 }
